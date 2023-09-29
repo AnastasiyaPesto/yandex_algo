@@ -1,4 +1,4 @@
-package ru.zentsova.yandex.sprint2;
+package ru.zentsova.yandex.sprint2.B;
 
 // <template>
 class Node<V> {
