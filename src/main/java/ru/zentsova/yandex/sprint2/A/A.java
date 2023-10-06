@@ -3,7 +3,6 @@ package ru.zentsova.yandex.sprint2.A;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class A {
@@ -21,10 +20,13 @@ public class A {
 				int num = Integer.parseInt(line.nextToken());
 				res[row++][i] = num;
 			}
-
+		}
+		for (int i = 0; i < rowCnt; i++) {
+			for (int j = 0; j < res[i].length; j++) {
+				outputBuffer.append(res[i][j]).append(" ");
+			}
 			outputBuffer.append("\n");
 		}
-//		for (int i = 0; i < )
-		System.out.println(outputBuffer.toString());
+		System.out.println(outputBuffer);
 	}
 }
