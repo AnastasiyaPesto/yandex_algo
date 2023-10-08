@@ -45,7 +45,6 @@ class Queue {
     public boolean isEmpty() {
         return size == 0;
     }
-
 }
 
 public class QueueTest {
