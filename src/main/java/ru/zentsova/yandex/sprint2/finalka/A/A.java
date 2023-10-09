@@ -1,7 +1,23 @@
 package ru.zentsova.yandex.sprint2.finalka.A;
 
-// Спринт 2. Финалка. А. Дек
-//
+/*
+-- Спринт 2. Финалка. А. Дек --
+Ссылка на удачную посылку: https://contest.yandex.ru/contest/22781/run-report/92394946/
+
+-- ПРИНЦИП РАБОТЫ --
+- добавить в начало: добавить элемент -> сдвинуть head по часовой стрелке
+- добавить в конец: сдвинуть tail против часовой стрелки -> добавить элемент
+- извлечь с начала: сдвинуть head против часовой стрелки -> извлечь элемент -> присвоить dequeue[head] = null
+- извлечь с конца: извлечь элемент -> присвоить dequeue[tail] = null -> сдвинуть tail по часовой стрелки
+
+-- ДОКАЗАТЕЛЬСТВО КОРРЕКТНОСТИ --
+Так как дек поддерживает операции вставки и в конце и в начало, а также извлечение из конца и из начала очереди, то можно
+сдвигать head и tail в любую сторону, главное выбрать один подход и придерживаться ему в течении всего решения.
+
+По поводу вычисления индекса, когда сдвиг против часовой стрелки:
+Чтобы не получалось ситуации, когда head (tail) будeт равeн -1, необходимо перед взятием остатка от деления по модулю
+прибавить к head (tail) максимальный размер (capacity)
+ */
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,11 +92,11 @@ class Dequeue {
 public class A {
 
 	public static void main(String[] args) throws IOException {
-		StringBuilder outputBuffer = new StringBuilder();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		int commandCount = Integer.parseInt(reader.readLine());
 		int dequeueMaxSize = Integer.parseInt(reader.readLine());
 		Dequeue dequeue = new Dequeue(dequeueMaxSize);
+		StringBuilder outputBuffer = new StringBuilder();
 		for (int i = 0; i < commandCount; ++i) {
 			StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
 			String commandName = tokenizer.nextToken();
@@ -89,29 +105,45 @@ public class A {
 				elem = Integer.parseInt(tokenizer.nextToken());
 			switch (commandName) {
 				case "push_front":
-					try {
-						dequeue.pushFront(elem);
-					} catch (DequeueFullSizeException ex) {
-						outputBuffer.append("error").append("\n");
-					}
+					pushFront(dequeue, elem, outputBuffer);
 					break;
 				case "push_back":
-					try {
-						dequeue.pushBack(elem);
-					} catch (DequeueFullSizeException ex) {
-						outputBuffer.append("error").append("\n");
-					}
+					pushBack(dequeue, elem, outputBuffer);
 					break;
 				case "pop_front":
-					Integer frontEl = dequeue.popFront();
-					outputBuffer.append(frontEl == null ? "error": frontEl).append("\n");
+					popFront(dequeue, outputBuffer);
 					break;
 				case "pop_back":
-					Integer backEl = dequeue.popBack();
-					outputBuffer.append(backEl == null ? "error": backEl).append("\n");
+					popBack(dequeue, outputBuffer);
 					break;
 			}
 		}
 		System.out.println(outputBuffer);
+	}
+
+	private static void pushFront(Dequeue dequeue, Integer elem, StringBuilder outputBuffer) {
+		try {
+			dequeue.pushFront(elem);
+		} catch (DequeueFullSizeException ex) {
+			outputBuffer.append("error").append("\n");
+		}
+	}
+
+	private static void pushBack(Dequeue dequeue, Integer elem, StringBuilder outputBuffer) {
+		try {
+			dequeue.pushBack(elem);
+		} catch (DequeueFullSizeException ex) {
+			outputBuffer.append("error").append("\n");
+		}
+	}
+
+	private static void popFront(Dequeue dequeue, StringBuilder outputBuffer) {
+		Integer frontEl = dequeue.popFront();
+		outputBuffer.append(frontEl == null ? "error": frontEl).append("\n");
+	}
+
+	private static void popBack(Dequeue dequeue, StringBuilder outputBuffer) {
+		Integer backEl = dequeue.popBack();
+		outputBuffer.append(backEl == null ? "error": backEl).append("\n");
 	}
 }
