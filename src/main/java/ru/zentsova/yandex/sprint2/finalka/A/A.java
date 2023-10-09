@@ -1,5 +1,8 @@
 package ru.zentsova.yandex.sprint2.finalka.A;
 
+// Спринт 2. Финалка. А. Дек
+//
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,8 +41,8 @@ class Dequeue {
 		}
 
 		Integer x = dequeue[tail];
-		tail = (tail + 1) % capacity;
 		dequeue[tail] = null;
+		tail = (tail + 1) % capacity;
 		size--;
 		return x;
 	}
@@ -48,8 +51,8 @@ class Dequeue {
 		if (size == capacity)
 			throw new DequeueFullSizeException();
 
-		head = (head + 1) % capacity;
 		dequeue[head] = x;
+		head = (head + 1) % capacity;
 		size++;
 	}
 
@@ -58,8 +61,8 @@ class Dequeue {
 			return null;
 		}
 
-		Integer x = dequeue[head];
 		head = (head - 1 + capacity) % capacity;
+		Integer x = dequeue[head];
 		dequeue[head] = null;
 		size--;
 		return x;
@@ -73,6 +76,7 @@ class Dequeue {
 public class A {
 
 	public static void main(String[] args) throws IOException {
+		StringBuilder outputBuffer = new StringBuilder();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		int commandCount = Integer.parseInt(reader.readLine());
 		int dequeueMaxSize = Integer.parseInt(reader.readLine());
@@ -88,25 +92,26 @@ public class A {
 					try {
 						dequeue.pushFront(elem);
 					} catch (DequeueFullSizeException ex) {
-						System.out.println("error");
+						outputBuffer.append("error").append("\n");
 					}
 					break;
 				case "push_back":
 					try {
 						dequeue.pushBack(elem);
 					} catch (DequeueFullSizeException ex) {
-						System.out.println("error");
+						outputBuffer.append("error").append("\n");
 					}
 					break;
 				case "pop_front":
 					Integer frontEl = dequeue.popFront();
-					System.out.println(frontEl == null ? "error": frontEl);
+					outputBuffer.append(frontEl == null ? "error": frontEl).append("\n");
 					break;
 				case "pop_back":
 					Integer backEl = dequeue.popBack();
-					System.out.println(backEl == null ? "error": backEl);
+					outputBuffer.append(backEl == null ? "error": backEl).append("\n");
 					break;
 			}
 		}
+		System.out.println(outputBuffer);
 	}
 }
